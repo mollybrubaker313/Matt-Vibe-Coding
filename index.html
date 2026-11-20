@@ -3,10 +3,77 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Basic Page</title>
+  <title>Disney Trip Countdown</title>
 </head>
-<body>
-  <h1>Hello, World!</h1>
-  <p>This is a basic HTML page.</p>
+<body style="margin: 0; min-height: 100vh; background: #f0f0f0; color: #000000; font-family: Georgia, 'Times New Roman', serif; display: flex; align-items: center; justify-content: center;">
+  <main style="width: 90%; max-width: 760px; box-sizing: border-box; margin: 24px auto; padding: 28px 20px 32px; text-align: center; background: #f0f0f0; border: 5px solid #ff5733; border-radius: 24px;">
+    <p style="margin: 0 0 8px; color: #445832; font-size: 22px;" aria-hidden="true">✨ 🏰 ✨</p>
+    <h1 style="margin: 8px 0 4px; color: #445832; font-size: clamp(32px, 8vw, 54px);">Our Disney Adventure!</h1>
+    <p style="margin: 8px 0 24px; color: #529752; font-size: 20px;">Counting down to November 29</p>
+
+    <section aria-label="Time until Disney trip" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
+      <div style="padding: 18px 6px; background: #445832; color: #ffffff; border-radius: 16px;">
+        <strong id="days" style="display: block; font-size: clamp(30px, 8vw, 48px);">0</strong>
+        <span>Days</span>
+      </div>
+      <div style="padding: 18px 6px; background: #529752; color: #000000; border-radius: 16px;">
+        <strong id="hours" style="display: block; font-size: clamp(30px, 8vw, 48px);">0</strong>
+        <span>Hours</span>
+      </div>
+      <div style="padding: 18px 6px; background: #ff5733; color: #000000; border-radius: 16px;">
+        <strong id="minutes" style="display: block; font-size: clamp(30px, 8vw, 48px);">0</strong>
+        <span>Minutes</span>
+      </div>
+      <div style="padding: 18px 6px; background: #445832; color: #ffffff; border-radius: 16px;">
+        <strong id="seconds" style="display: block; font-size: clamp(30px, 8vw, 48px);">0</strong>
+        <span>Seconds</span>
+      </div>
+    </section>
+
+    <p id="message" style="margin: 24px 0 0; color: #445832; font-size: 24px; font-weight: bold;">Our magical countdown has begun! ✨</p>
+  </main>
+
+  <script>
+    function getTripDate() {
+      const now = new Date();
+      let tripDate = new Date(now.getFullYear(), 10, 29, 0, 0, 0);
+
+      if (tripDate <= now) {
+        tripDate = new Date(now.getFullYear() + 1, 10, 29, 0, 0, 0);
+      }
+
+      return tripDate;
+    }
+
+    const tripDate = getTripDate();
+
+    function updateCountdown() {
+      const now = new Date();
+      const difference = tripDate - now;
+      const days = document.getElementById("days");
+      const hours = document.getElementById("hours");
+      const minutes = document.getElementById("minutes");
+      const seconds = document.getElementById("seconds");
+      const message = document.getElementById("message");
+
+      if (difference <= 0) {
+        days.textContent = "0";
+        hours.textContent = "0";
+        minutes.textContent = "0";
+        seconds.textContent = "0";
+        message.textContent = "It is Disney trip time! Have a magical day! 🏰";
+        return;
+      }
+
+      const totalSeconds = Math.floor(difference / 1000);
+      days.textContent = Math.floor(totalSeconds / 86400);
+      hours.textContent = Math.floor((totalSeconds % 86400) / 3600);
+      minutes.textContent = Math.floor((totalSeconds % 3600) / 60);
+      seconds.textContent = totalSeconds % 60;
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
 </body>
 </html>
